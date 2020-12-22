@@ -12,7 +12,7 @@
     "private": true,
     "sideEffects": false,
     "dependencies": {
-        "ideafast-pre": "*",
+        "decentraliseddatamanagement-pre": "*",
         "react": "16.13.1",
         "react-dom": "16.13.1",
         "react-scripts": "3.4.1"
