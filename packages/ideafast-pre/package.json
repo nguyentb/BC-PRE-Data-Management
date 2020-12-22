@@ -1,7 +1,7 @@
 {
-    "name": "ideafast-pre",
+    "name": "decentraliseddatamanagement-pre",
     "version": "0.0.1",
-    "description": "An efficient pairing free PRE.",
+    "description": "Decentralised Data Management based on BC and PRE.",
     "contributors": [
         {
             "name": "Nguyen Truong",
