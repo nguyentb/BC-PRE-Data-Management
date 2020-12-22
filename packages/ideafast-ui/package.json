@@ -1,7 +1,7 @@
 {
-    "name": "ideafast-ui",
+    "name": "decentraliseddatamanagement-ui",
     "version": "0.0.1",
-    "description": "Demo UI for IdeaFast PRE",
+    "description": "Demo UI for Decentralised Data Management based on BC and PRE",
     "contributors": [
         {
             "email": "f.guitton@imperial.ac.uk",
