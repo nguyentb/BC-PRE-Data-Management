@@ -1,0 +1,49 @@
+{
+    "name": "ideafast-pre",
+    "version": "0.0.1",
+    "description": "An efficient pairing free PRE.",
+    "contributors": [
+        {
+            "name": "Nguyen Truong",
+            "email": "n.truong@imperial.ac.uk",
+            "url": "https://github.com/nguyentb"
+        },
+        {
+            "email": "f.guitton@imperial.ac.uk",
+            "name": "Florian Guitton",
+            "url": "https://github.com/fguitton"
+        }
+    ],
+    "main": "dist/index.js",
+    "sideEffects": false,
+    "scripts": {
+        "build": "cross-env NODE_ENV=production wp --config config/webpack.config.js",
+        "start": "cross-env NODE_ENV=development wp --config config/webpack.config.js",
+        "lint": "echo Put your favorite linter here.",
+        "test": "jest --color --passWithNoTests"
+    },
+    "dependencies": {
+        "crypto-browserify": "3.12.0",
+        "mcl-wasm": "0.3.7"
+    },
+    "devDependencies": {
+        "@babel/core": "7.9.0",
+        "@babel/preset-env": "7.9.5",
+        "arraybuffer-loader": "1.0.8",
+        "babel-loader": "8.1.0",
+        "babel-jest": "25.4.0",
+        "cross-env": "7.0.2",
+        "jest": "25.4.0",
+        "webpack": "4.43.0",
+        "webpack-nano": "1.0.0",
+        "webpack-node-externals": "1.7.2"
+    },
+    "jest": {
+        "transform": {
+            "^.+\\.(js|html|scss)$": "<rootDir>/test/preprocessor.js"
+        },
+        "testMatch": [
+            "**/+(*.)(spec|test).{js,jsx,mjs}"
+        ]
+    }
+}

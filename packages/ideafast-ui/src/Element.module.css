@@ -1,0 +1,42 @@
+.wrapper {
+    margin: 1rem;
+    background-color: #383c44;
+    padding: 0.5rem;
+    width: 20rem;
+    transition: box-shadow ease-in 100ms;
+}
+
+.wrapper:hover {
+    box-shadow: 0 0 2rem 0.5rem #2f3438;
+}
+
+.title {
+    display: inline-block;
+    font-size: 1.1rem;
+    height: 2rem;
+}
+
+.title button {
+    height: 1.5rem;
+    margin-bottom: 0.2rem;
+    background-color: #610b0b;
+}
+
+.title button:hover {
+    background-color: #7c1c29;
+}
+
+.section {
+    display: inline-block;
+    font-size: 0.9rem;
+    padding-top: 0.7rem;
+}
+
+.code {
+    width: 100%;
+    display: block;
+    word-wrap: break-word;
+    resize: none;
+    height: auto;
+    font-size: 0.7rem;
+}
