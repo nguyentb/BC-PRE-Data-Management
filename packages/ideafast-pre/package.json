@@ -1,7 +1,7 @@
 {
-    "name": "decentraliseddatamanagement-pre",
+    "name": "ideafast-pre",
     "version": "0.0.1",
-    "description": "Decentralised Data Management based on BC and PRE.",
+    "description": "An efficient pairing free PRE.",
     "contributors": [
         {
             "name": "Nguyen Truong",
@@ -27,16 +27,16 @@
         "mcl-wasm": "0.3.7"
     },
     "devDependencies": {
-        "@babel/core": "7.9.0",
-        "@babel/preset-env": "7.9.5",
+        "@babel/core": "7.12.3",
+        "@babel/preset-env": "7.12.1",
         "arraybuffer-loader": "1.0.8",
         "babel-loader": "8.1.0",
-        "babel-jest": "25.4.0",
+        "babel-jest": "26.6.1",
         "cross-env": "7.0.2",
-        "jest": "25.4.0",
-        "webpack": "4.43.0",
+        "jest": "26.6.1",
+        "webpack": "4.44.2",
         "webpack-nano": "1.0.0",
-        "webpack-node-externals": "1.7.2"
+        "webpack-node-externals": "2.5.2"
     },
     "jest": {
         "transform": {
