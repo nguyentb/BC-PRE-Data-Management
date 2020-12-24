@@ -1,0 +1,49 @@
+{
+    "name": "bc-pre-ui",
+    "version": "0.0.1",
+    "description": "UI for Personal Data Management based on Blockchain and PRE",
+    "contributors": [
+        {
+            "email": "f.guitton@imperial.ac.uk",
+            "name": "Florian Guitton",
+            "url": "https://github.com/fguitton"
+        }
+    ],
+    "private": true,
+    "sideEffects": false,
+    "dependencies": {
+        "bc-pre-core": "*",
+        "react": "16.13.1",
+        "react-dom": "16.13.1",
+        "react-scripts": "3.4.0"
+    },
+    "devDependencies": {
+        "@types/react": "16.9.35",
+        "@types/react-dom": "16.9.8",
+        "cross-env": "7.0.2",
+        "typescript": "3.9.5"
+    },
+    "scripts": {
+        "start": "cross-env BROWSER=none react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            "last 1 chrome version",
+            "last 1 edge version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 edge version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
+}
