@@ -48,7 +48,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, '../dist'),
         filename: 'index.js',
-        library: 'ideafast-pre',
+        library: 'bc-pre-core',
         libraryTarget: 'umd',
         umdNamedDefine: true,
         webassemblyModuleFilename: "[hash].wasm"

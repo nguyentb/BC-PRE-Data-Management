@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PREProxy } from 'ideafast-pre';
+import { PREProxy } from 'bc-pre-core';
 import style from './Element.module.css';
 
 type ProxyProps = {

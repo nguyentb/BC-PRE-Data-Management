@@ -1,6 +1,6 @@
 declare module 'crypto-browserify';
 
-declare module 'ideafast-pre' {
+declare module 'bc-pre-core' {
 
     interface PRE {
     }

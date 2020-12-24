@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PRE, PREClient } from 'ideafast-pre';
+import { PRE, PREClient } from 'bc-pre-core';
 import Party from './Party';
 import Proxy from './Proxy';
 import style from './App.module.css';
