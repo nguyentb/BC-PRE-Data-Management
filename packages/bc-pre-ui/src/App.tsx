@@ -62,8 +62,12 @@ const App: React.FC = () => {
     return (
         <div className={style.dashboard} >
             <header className={style.header} >
-                Proxy Re - Encryption POC&nbsp;&nbsp;&nbsp;<button onClick={() => addParty()}>Add party</button>  <button onClick={() => addProxy()}>Add proxy</button>
+                Personal Data Management based on Blockchain and Proxy Re-encryption (PRE)
+
+                <button onClick={() => addParty()}>Add party</button>  <button onClick={() => addProxy()}>Add proxy</button>
+                <br />
             </header>
+
             <section className={style.parties}>
                 {parties.map((party, index) => {
                     return <Party key={index} l0={L0} party={party} onClose={handlePartyClose} />
