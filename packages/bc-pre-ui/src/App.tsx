@@ -4,6 +4,9 @@ import Party from './Party';
 import Proxy from './Proxy';
 import style from './App.module.css';
 
+import DataManagementSC from './Ethereum-lib/DataManagement.json';
+import getWeb3 from './Ethereum-lib/getWeb3';
+
 const App: React.FC = () => {
 
     const [initialized, setInitialized] = useState(false);
@@ -11,6 +14,44 @@ const App: React.FC = () => {
     const [L1] = useState(16);
     const [parties, setParties] = useState<Party[]>([]);
     const [proxies, setProxies] = useState<Proxy[]>([]);
+
+    // setup environment to interact with the smart contract
+    const [web3, setWeb3] = useState('');
+    const [accountAddr, setAccountAddr] = useState('');
+    const [contractAddr, setContractAddr] = useState('');
+    const [contractInstance, setContractInstance] = useState('');
+
+    useEffect(() => {
+        (async () => {
+            try {
+                // Get network provider and web3 instance.
+                const web3 = await getWeb3();
+            
+                // Use web3 to get the user's accounts.
+                const accountAddr = await web3.eth.getAccounts();
+            
+                // Get the contract instance.
+                //const networkId = await web3.eth.net.getId();
+                const deployedNetwork = DataManagementSC.networks[4];
+                const instance = new web3.eth.Contract(
+                    DataManagementSC.abi,
+                    deployedNetwork && deployedNetwork.address,
+                );
+            
+                // Set web3, accounts, and contract to the state
+                setWeb3(web3);
+                setAccountAddr(accountAddr);
+                setContractAddr(deployedNetwork.address);
+                setContractInstance(instance);
+            } catch (error) {
+                // Catch any errors for any of the above operations.
+                alert(
+                    `Failed to load web3, accounts, or contract. Check console for details.`,
+                );
+                console.error(error);
+            }
+        })();
+    }, [web3, accountAddr, contractAddr, contractInstance]);
 
     useEffect(() => {
         if (initialized === false)
@@ -62,9 +103,11 @@ const App: React.FC = () => {
     return (
         <div className={style.dashboard} >
             <header className={style.header} >
-                Personal Data Management based on Blockchain and Proxy Re-encryption (PRE)
-
+                <h2>Personal Data Management based on Blockchain and Proxy Re-encryption (PRE)</h2>
                 <button onClick={() => addParty()}>Add party</button>  <button onClick={() => addProxy()}>Add proxy</button>
+                <br />                
+                <h4>Smart Contract Address: <text className={style.textinfo}>{contractAddr}</text></h4>
+                <h4>Account Address: <text className={style.textinfo}>{accountAddr}</text></h4>
                 <br />
             </header>
 
