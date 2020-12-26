@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { PRE, PREClient } from 'bc-pre-core';
 import Party from './Party';
 import Proxy from './Proxy';
-import style from './App.module.css';
+import style from './css/App.module.css';
 
 import DataManagementSC from './Ethereum-lib/DataManagement.json';
 import getWeb3 from './Ethereum-lib/getWeb3';
+import * as keyManagement from './Ethereum-lib/keyManagement';
 
 const App: React.FC = () => {
 
@@ -58,9 +59,11 @@ const App: React.FC = () => {
             (async () => {
                 try {
                     await PRE.init(L0, L1, PRE.CURVE.SECP256K1);
-                    setParties([0, 1, 3].map((id) => {
+                    setParties([0, 1, 2].map((id) => {
                         const partyClient = new PREClient();
                         partyClient.keyGen();
+                        keyManagement.createCookie('public_key' + id, partyClient.getPk().toString('base64'), 7);
+                        keyManagement.createCookie('private_key' + id, partyClient.getSk().toString('base64'), 7);
                         return {
                             id,
                             partyClient
@@ -104,10 +107,10 @@ const App: React.FC = () => {
         <div className={style.dashboard} >
             <header className={style.header} >
                 <h2>Personal Data Management based on Blockchain and Proxy Re-encryption (PRE)</h2>
-                <button onClick={() => addParty()}>Add party</button>  <button onClick={() => addProxy()}>Add proxy</button>
+                <button onClick={() => addParty()}>Add party</button> <button onClick={() => addProxy()}>Add proxy</button>
                 <br />                
-                <h4>Smart Contract Address: <text className={style.textinfo}>{contractAddr}</text></h4>
-                <h4>Account Address: <text className={style.textinfo}>{accountAddr}</text></h4>
+                <h4>Smart Contract Address: <span className={style.textinfo}>{contractAddr}</span></h4>
+                <h4>Account Address: <span className={style.textinfo}>{accountAddr}</span></h4>
                 <br />
             </header>
 

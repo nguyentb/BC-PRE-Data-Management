@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import style from './Element.module.css';
+import style from './css/Element.module.css';
 
 type PartyProps = {
     party: Party;
