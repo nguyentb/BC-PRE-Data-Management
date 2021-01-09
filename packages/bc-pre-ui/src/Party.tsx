@@ -3,11 +3,10 @@ import style from './css/Element.module.css';
 
 type PartyProps = {
     party: Party;
-    l0: number;
-    onClose?: (id: number) => void;
+    l0: number;    
 }
 
-const Party: React.FC<PartyProps> = ({ party, l0, onClose }) => {
+const Party: React.FC<PartyProps> = ({ party, l0 }) => {
 
     const { id, partyClient } = party;
     const [ownPk] = useState(partyClient.getPk());
@@ -75,12 +74,12 @@ const Party: React.FC<PartyProps> = ({ party, l0, onClose }) => {
 
     return (
         <div className={style.wrapper} >
-            <span className={style.title}>Party #{id}&nbsp;&nbsp;&nbsp;<button onClick={() => onClose?.(id)}>Delete</button></span><br />
-            <span className={style.section}>Own Private Key</span>
+            <span className={style.title}>User ID #{id}</span><br />
+            <span className={style.section}>Private Key</span>
             <textarea className={style.code} disabled defaultValue={ownSk.toString('base64')} />
-            <span className={style.section}>Own Public Key</span>
+            <span className={style.section}>Public Key</span>
             <textarea className={style.code} disabled defaultValue={ownPk.toString('base64')} />
-            <span className={style.section}>Own Message</span>
+            <span className={style.section}>Private Information</span>
             <textarea className={style.code} onChange={handleOwnMessage} value={ownMessage} maxLength={32} />
             <span className={style.section}>Counterparty Public Key</span>
             <textarea className={style.code} onChange={handleReceipientPk} value={receipientPk} />

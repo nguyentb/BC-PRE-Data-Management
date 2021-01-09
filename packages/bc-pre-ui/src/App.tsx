@@ -44,6 +44,7 @@ const App: React.FC = () => {
                 setAccountAddr(accountAddr);
                 setContractAddr(deployedNetwork.address);
                 setContractInstance(instance);
+
             } catch (error) {
                 // Catch any errors for any of the above operations.
                 alert(
@@ -59,19 +60,34 @@ const App: React.FC = () => {
             (async () => {
                 try {
                     await PRE.init(L0, L1, PRE.CURVE.SECP256K1);
-                    setParties([0, 1, 2].map((id) => {
-                        const partyClient = new PREClient();
-                        partyClient.keyGen();
-                        keyManagement.createCookie('public_key' + id, partyClient.getPk().toString('base64'), 7);
-                        keyManagement.createCookie('private_key' + id, partyClient.getSk().toString('base64'), 7);
-                        return {
-                            id,
-                            partyClient
-                        }
-                    }))
+                    const user_sk = keyManagement.readCookie('pre_user_private_key');
+                    if (!!user_sk) { // User has already been initialised. Public/private key-pair is stored using Cookies
+                        console.log("User has already been initialised. Public/private key-pair is stored using Cookies: " + user_sk);
+                        setParties([0].map((id) => {
+                            const partyClient = new PREClient();
+                            partyClient.loadKey(new Buffer(user_sk, 'base64'));
+                            return {
+                                id,
+                                partyClient
+                            }
+                        }))
+                    } else {
+                        console.log("User initialised!" + user_sk);
+                        setParties([0].map((id) => {
+                            const partyClient = new PREClient();
+                            partyClient.keyGen();
+                            keyManagement.createCookie('pre_user_private_key', partyClient.getSk().toString('base64'), 7);                      
+                            return {
+                                id,
+                                partyClient
+                            }
+                        }))
+                    }
+                    
                     setProxies([0].map((id) => {
                         return { id }
                     }))
+
                 } catch (error) {
                     console.error('A problem occured', error);
                 };
@@ -80,48 +96,24 @@ const App: React.FC = () => {
         setInitialized(true);
     }, [initialized, L0, L1]);
 
-    const addParty = () => {
-        const partyClient = new PREClient();
-        partyClient.keyGen();
-        setParties(parties.concat({
-            id: parties.length + 1,
-            partyClient
-        }))
-    }
-
-    const addProxy = () => {
-        setProxies(proxies.concat({
-            id: proxies.length + 1
-        }))
-    }
-
-    const handlePartyClose = (id: number) => {
-        setParties(parties.filter(party => party.id !== id))
-    }
-
-    const handleProxyClose = (id: number) => {
-        setProxies(proxies.filter(proxy => proxy.id !== id))
-    }
-
     return (
         <div className={style.dashboard} >
             <header className={style.header} >
                 <h2>Personal Data Management based on Blockchain and Proxy Re-encryption (PRE)</h2>
-                <button onClick={() => addParty()}>Add party</button> <button onClick={() => addProxy()}>Add proxy</button>
-                <br />                
                 <h4>Smart Contract Address: <span className={style.textinfo}>{contractAddr}</span></h4>
                 <h4>Account Address: <span className={style.textinfo}>{accountAddr}</span></h4>
-                <br />
+                <hr />
             </header>
 
             <section className={style.parties}>
                 {parties.map((party, index) => {
-                    return <Party key={index} l0={L0} party={party} onClose={handlePartyClose} />
+                    return <Party key={index} l0={L0} party={party} />
                 })}
             </section>
+
             <section className={style.proxies}>
                 {proxies.map((proxy, index) => {
-                    return <Proxy key={index} proxy={proxy} onClose={handleProxyClose} />
+                    return <Proxy key={index} proxy={proxy} />
                 })}
             </section>
         </div>

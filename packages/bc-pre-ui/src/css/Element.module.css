@@ -1,8 +1,10 @@
 .wrapper {
     margin: 1rem;
     background-color: #355457;
-    padding: 0.5rem;
-    width: 20rem;
+    padding: 0.5rem;    
+    min-width:50rem;
+    margin-left:10px;
+    overflow:hidden;
     transition: box-shadow ease-in 100ms;
 }
 

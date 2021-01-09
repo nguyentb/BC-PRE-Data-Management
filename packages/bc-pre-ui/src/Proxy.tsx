@@ -4,10 +4,9 @@ import style from './css/Element.module.css';
 
 type ProxyProps = {
     proxy: Proxy;
-    onClose?: (id: number) => void;
 }
 
-const Proxy: React.FC<ProxyProps> = ({ proxy, onClose }) => {
+const Proxy: React.FC<ProxyProps> = ({ proxy }) => {
 
     const { id } = proxy;
     const [reEncryptionKey, setReEncryptionKey] = useState('');
@@ -40,7 +39,7 @@ const Proxy: React.FC<ProxyProps> = ({ proxy, onClose }) => {
 
     return (
         <div className={style.wrapper} >
-            <span className={style.title}>Proxy #{id}&nbsp;&nbsp;&nbsp;<button onClick={() => onClose?.(id)}>Delete</button></span><br />
+            <span className={style.title}>Proxy ID #{id};</span><br />
             <span className={style.section}>Sender Re-Encryption Key</span>
             <textarea className={style.code} onChange={handleReEncryptionKey} value={reEncryptionKey} />
             <span className={style.section}>Transformable Secret</span>
