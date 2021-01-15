@@ -3,14 +3,14 @@ import style from './css/Element.module.css';
 
 type PartyProps = {
     party: Party;
-    l0: number;    
+    l0: number;
 }
 
 const Party: React.FC<PartyProps> = ({ party, l0 }) => {
 
     const { id, partyClient } = party;
-    const [ownPk] = useState(partyClient.getPk());
-    const [ownSk] = useState(partyClient.getSk());
+    const [ownPk, setOwnPk] = useState(partyClient.getPk());
+    const [ownSk, setOwnSk] = useState(partyClient.getSk());
     const [ownMessage, setOwnMessage] = useState('');
     const [receipientPk, setReceipientPk] = useState('');
     const [reEncryptionKey, setReEncryptionKey] = useState('');
@@ -41,7 +41,6 @@ const Party: React.FC<PartyProps> = ({ party, l0 }) => {
     }, [ownMessage, l0, partyClient])
     
     useEffect(() => {
-
         try {
             if (receipientPk === '')
                 return setReEncryptionKey('');
@@ -79,7 +78,7 @@ const Party: React.FC<PartyProps> = ({ party, l0 }) => {
             <textarea className={style.code} disabled defaultValue={ownSk.toString('base64')} />
             <span className={style.section}>Public Key</span>
             <textarea className={style.code} disabled defaultValue={ownPk.toString('base64')} />
-            <span className={style.section}>Private Information</span>
+            <span className={style.section}>Private Information to be shared</span>
             <textarea className={style.code} onChange={handleOwnMessage} value={ownMessage} maxLength={32} />
             <span className={style.section}>Counterparty Public Key</span>
             <textarea className={style.code} onChange={handleReceipientPk} value={receipientPk} />

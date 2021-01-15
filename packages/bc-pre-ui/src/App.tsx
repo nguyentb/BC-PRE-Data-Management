@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { PRE, PREClient } from 'bc-pre-core';
 import Party from './Party';
 import Proxy from './Proxy';
@@ -16,11 +16,29 @@ const App: React.FC = () => {
     const [parties, setParties] = useState<Party[]>([]);
     const [proxies, setProxies] = useState<Proxy[]>([]);
 
+    const reGenParty = useCallback(() => {
+        try {
+            console.log("Re-generating public/private keypair!");
+            setParties([0].map((id) => {
+                const partyClient = new PREClient();
+                partyClient.keyGen();
+                keyManagement.createCookie('pre_user_private_key', partyClient.getSk().toString('base64'), 7);
+                return {
+                    id,
+                    partyClient
+                }
+            }))
+            
+        } catch (e) {
+            console.log(`Could not generate a key-pair: ${e?.message}`);            
+        }
+    }, [parties]);
+
     // setup environment to interact with the smart contract
     const [web3, setWeb3] = useState('');
     const [accountAddr, setAccountAddr] = useState('');
     const [contractAddr, setContractAddr] = useState('');
-    const [contractInstance, setContractInstance] = useState('');
+    const [contractInstance, setContractInstance] = useState('');    
 
     useEffect(() => {
         (async () => {
@@ -76,7 +94,7 @@ const App: React.FC = () => {
                         setParties([0].map((id) => {
                             const partyClient = new PREClient();
                             partyClient.keyGen();
-                            keyManagement.createCookie('pre_user_private_key', partyClient.getSk().toString('base64'), 7);                      
+                            keyManagement.createCookie('pre_user_private_key', partyClient.getSk().toString('base64'), 7);
                             return {
                                 id,
                                 partyClient
@@ -94,7 +112,7 @@ const App: React.FC = () => {
             })();
 
         setInitialized(true);
-    }, [initialized, L0, L1]);
+    }, [initialized, L0, L1, parties]);
 
     return (
         <div className={style.dashboard} >
@@ -104,6 +122,13 @@ const App: React.FC = () => {
                 <h4>Account Address: <span className={style.textinfo}>{accountAddr}</span></h4>
                 <hr />
             </header>
+
+            <hr />
+            <div className={style.userinfo}>            
+                <span><button onClick={() => reGenParty()}>Re-generate keypair</button></span>
+                <br />
+            </div>
+            <hr />
 
             <section className={style.parties}>
                 {parties.map((party, index) => {

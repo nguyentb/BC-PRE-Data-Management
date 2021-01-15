@@ -24,6 +24,8 @@
     },
     "dependencies": {
         "crypto-browserify": "3.12.0",
+        "ecdsa": "^0.7.0",
+        "jsonwebtoken": "^8.5.1",
         "mcl-wasm": "0.3.7"
     },
     "devDependencies": {
