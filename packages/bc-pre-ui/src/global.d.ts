@@ -1,3 +1,5 @@
+import { PREClient } from "bc-pre-core";
+
 declare module 'crypto-browserify';
 
 declare module 'bc-pre-core' {
@@ -45,4 +47,8 @@ type Party = {
 
 type Proxy = {
     id: number;
+}
+
+type User = {
+    user: PREClient;
 }

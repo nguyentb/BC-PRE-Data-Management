@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import style from './css/Element.module.css';
+import { PREClient } from 'bc-pre-core';
 
-type PartyProps = {
-    party: Party;
+type UserProps = {
+    user: PREClient;
     l0: number;
 }
 
-const Party: React.FC<PartyProps> = ({ party, l0 }) => {
-
-    const { id, partyClient } = party;
-    const [ownPk, setOwnPk] = useState('');
-    const [ownSk, setOwnSk] = useState('');
+const User: React.FC<UserProps> = ({ user, l0 }) => {
+    
+    const [ownPk, setOwnPk] = useState(user.getPk());
+    const [ownSk, setOwnSk] = useState(user.getSk());
     const [ownMessage, setOwnMessage] = useState('');
     const [receipientPk, setReceipientPk] = useState('');
     const [reEncryptionKey, setReEncryptionKey] = useState('');
@@ -20,48 +20,36 @@ const Party: React.FC<PartyProps> = ({ party, l0 }) => {
 
     useEffect(() => {
         try {
-            const ownPk = partyClient.getPk();
-            setOwnPk(ownPk);            
-            const ownSk = partyClient.getSk();
-            setOwnSk(ownSk);
-        } catch (e) {
-            setOwnPk('Unable to get public-key of the user');
-            setOwnPk('Unable to get private-key of the user');
-        }
-    }, [partyClient])
-
-    useEffect(() => {
-        try {
-            const message = partyClient.dec(Buffer.from(receivedSecret, 'base64'))[1];
+            const message = user.dec(Buffer.from(receivedSecret, 'base64'))[1];
             setReceivedMessage(message?.toString('ascii') ?? '');
         } catch (e) {
             if (receivedSecret !== '')
                 setReceivedMessage(`Not decodable: ${e?.message}`);
         }
-    }, [receivedSecret, partyClient])
+    }, [receivedSecret, user])
 
     useEffect(() => {
         try {
             const messageBuffer = new Buffer(ownMessage);
             const transportBuffer = new Uint8Array(l0)
             messageBuffer.copy(transportBuffer);
-            const transformable = partyClient.enc(transportBuffer, { transformable: true });
+            const transformable = user.enc(transportBuffer, { transformable: true });
             setTransformableSecret(transformable?.toString('base64') ?? '');
         } catch (e) {
             setTransformableSecret(`Could not compute transformable: ${e?.message}`);
         }
-    }, [ownMessage, l0, partyClient])
+    }, [ownMessage, l0, user])
     
     useEffect(() => {
         try {
             if (receipientPk === '')
                 return setReEncryptionKey('');
-            const reKey = partyClient.reKeyGen(Buffer.from(receipientPk, 'base64'));
+            const reKey = user.reKeyGen(Buffer.from(receipientPk, 'base64'));
             setReEncryptionKey(reKey.toString('base64'));
         } catch (e) {
             setReEncryptionKey(`Could not compute re-encryption key: ${e?.message}`);
         }
-    }, [receipientPk, partyClient])
+    }, [receipientPk, user])
 
     const handleOwnMessage = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         const message = event.target.value;
@@ -85,7 +73,6 @@ const Party: React.FC<PartyProps> = ({ party, l0 }) => {
 
     return (
         <div className={style.wrapper} >
-            <span className={style.title}>User ID #{id}</span><br />
             <span className={style.section}>Private Key</span>
             <textarea className={style.code} disabled defaultValue={ownSk.toString('base64')} />
             <span className={style.section}>Public Key</span>
@@ -106,4 +93,4 @@ const Party: React.FC<PartyProps> = ({ party, l0 }) => {
     );
 }
 
-export default Party;
+export default User;
