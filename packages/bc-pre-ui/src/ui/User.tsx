@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import style from './css/Element.module.css';
+import style from '../css/Element.module.css';
 import { PREClient } from 'bc-pre-core';
 
 type UserProps = {

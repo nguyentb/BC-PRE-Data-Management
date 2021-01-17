@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import style from './css/Element.module.css';
+import style from '../css/Element.module.css';
 
 type PartyProps = {
     party: Party;
@@ -11,7 +11,13 @@ const Party: React.FC<PartyProps> = ({ party, l0 }) => {
     const { id, partyClient } = party;
     const [ownPk, setOwnPk] = useState('');
     const [ownSk, setOwnSk] = useState('');
-    const [ownMessage, setOwnMessage] = useState('');
+
+    const [name, setName] = useState('');
+    const [age, setAge] = useState('');
+    const [height, setHeight] = useState('');
+    const [weight, setWeight] = useState('');
+    const [heartbeat, setHeartbeat] = useState('');
+
     const [receipientPk, setReceipientPk] = useState('');
     const [reEncryptionKey, setReEncryptionKey] = useState('');
     const [transformableSecret, setTransformableSecret] = useState('');
@@ -42,7 +48,11 @@ const Party: React.FC<PartyProps> = ({ party, l0 }) => {
 
     useEffect(() => {
         try {
-            const messageBuffer = new Buffer(ownMessage);
+
+            const jsonMessage = `{"name":${name}, "age":${age}, "height":${height}, "weight":${weight}, "heartbeat":${heartbeat}}`;
+
+            //const messageBuffer = new Buffer(name + age + height + weight + heartbeat);
+            const messageBuffer = new Buffer(jsonMessage);
             const transportBuffer = new Uint8Array(l0)
             messageBuffer.copy(transportBuffer);
             const transformable = partyClient.enc(transportBuffer, { transformable: true });
@@ -50,7 +60,7 @@ const Party: React.FC<PartyProps> = ({ party, l0 }) => {
         } catch (e) {
             setTransformableSecret(`Could not compute transformable: ${e?.message}`);
         }
-    }, [ownMessage, l0, partyClient])
+    }, [name, age, height, weight, heartbeat, l0, partyClient])
     
     useEffect(() => {
         try {
@@ -63,9 +73,28 @@ const Party: React.FC<PartyProps> = ({ party, l0 }) => {
         }
     }, [receipientPk, partyClient])
 
-    const handleOwnMessage = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const message = event.target.value;
-        setOwnMessage(message);
+    const handleName = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const name = event.target.value;
+        setName(name);
+    }
+    const handleAge = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const age = event.target.value;
+        setAge(age);
+    }
+
+    const handleHeight = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const height = event.target.value;
+        setHeight(height);
+    }
+
+    const handleWeight = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const weight = event.target.value;
+        setWeight(weight);
+    }
+    
+    const handleHeartbeat = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const heartbeat = event.target.value;
+        setHeartbeat(heartbeat);
     }
 
     const handleReceipientPk = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -90,19 +119,54 @@ const Party: React.FC<PartyProps> = ({ party, l0 }) => {
             <textarea className={style.code} disabled defaultValue={ownSk.toString('base64')} />
             <span className={style.section}>Public Key</span>
             <textarea className={style.code} disabled defaultValue={ownPk.toString('base64')} />
+
             <span className={style.section}>Private Information to be shared</span>
-            <textarea className={style.code} onChange={handleOwnMessage} value={ownMessage} maxLength={32} />
+
+            <p>
+                <label className={style.label}>Name:</label>
+                <textarea id="name" placeholder="Enter your name" className={style.personaldata} onChange={handleName} value={name} maxLength={21} />
+            </p>
+            
+            <p>
+                <label className={style.label}>Age:</label>
+                <textarea id="age" placeholder="Enter your age" className={style.personaldata} onChange={handleAge} value={age} maxLength={2} />
+            </p>
+            
+            <p>
+                <label className={style.label}>Height: </label>
+                <textarea id="height" placeholder="Enter your height" className={style.personaldata} onChange={handleHeight} value={height} maxLength={3} />
+            </p>
+
+            <p>
+                <label className={style.label}>Weight: </label>
+                <textarea id="weight" placeholder="Enter your weight" className={style.personaldata} onChange={handleWeight} value={weight} maxLength={3} />
+            </p>
+            <p>
+                <label className={style.label}>Heart-beat: </label>
+                <textarea placeholder="Enter your heart-beat" id="heartbeat" className={style.personaldata} onChange={handleHeartbeat} value={heartbeat} maxLength={3} />
+            </p>
+
+            <span className={style.section}>Ciphertext to be stored at Proxy</span>
+            <textarea className={style.code} disabled value={transformableSecret} />
+            
+            <br/>
+            <span className={style.section}>(i) Transfer the ciphertext to Proxy and (i) Register/Update storage info. to Blockchain</span>
+            <br/>
+            <br/>
+            <button>Submit</button>
+            <hr />
+            <br/>
+
             <span className={style.section}>Counterparty Public Key</span>
             <textarea className={style.code} onChange={handleReceipientPk} value={receipientPk} />
             <span className={style.section}>Re-Encryption Key</span>
             <textarea className={style.code} disabled onChange={handleReEncryptionKey} value={reEncryptionKey} />
-            <span className={style.section}>Transformable Secret</span>
-            <textarea className={style.code} disabled value={transformableSecret} />
+            
             <span className={style.section}>Received Secret</span>
             <textarea className={style.code} onChange={handleReceivedSecret} value={receivedSecret} />
             <span className={style.section}>Received Message</span>
             <textarea className={style.code} disabled value={receivedMessage} />
-        </div>
+        </div>        
     );
 }
 

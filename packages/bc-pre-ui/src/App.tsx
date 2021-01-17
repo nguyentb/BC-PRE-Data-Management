@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { PRE, PREClient } from 'bc-pre-core';
-import Party from './Party';
-import Proxy from './Proxy';
+import Party from './ui/Party';
+import Proxy from './ui/Proxy';
 import style from './css/App.module.css';
 
 import DataManagementSC from './Ethereum-lib/DataManagement.json';
@@ -38,7 +38,12 @@ const App: React.FC = () => {
     const [web3, setWeb3] = useState('');
     const [accountAddr, setAccountAddr] = useState('');
     const [contractAddr, setContractAddr] = useState('');
-    const [contractInstance, setContractInstance] = useState('');    
+    const [contractInstance, setContractInstance] = useState('');
+
+    const bcSubmit = {        
+
+    }
+
 
     useEffect(() => {
         (async () => {
@@ -62,6 +67,46 @@ const App: React.FC = () => {
                 setAccountAddr(accountAddr);
                 setContractAddr(deployedNetwork.address);
                 setContractInstance(instance);
+                
+
+                // const _dataHash = '123';
+                // console.log(instance);
+                // console.log(accountAddr);
+                // instance.methods.uploadData(accountAddr[0], _dataHash).send({from: accountAddr[0]}, (error, result) => {
+                //     if (!error){
+                //         console.log(JSON.stringify(result));
+                //     } else {
+                //         console.log("Error in transaction");
+                //         console.log(error);
+                //     }
+                // });
+
+                // web3.eth.getGasPrice((e, gasPrice) => {
+                //     if(!e){                      
+                //       const _dataHash = '123';
+                //       instance.uploadData.estimateGas(web3.eth.defaultAccount, _dataHash, (er, gas) => {
+                //         if(!er){
+                //           tx = {
+                //             from: web3.eth.defaultAccount,
+                //             gas: gas,
+                //             gasPrice: gasPrice
+                //           };
+                //           instance.uploadData.sendTransaction(web3.eth.defaultAccount, _dataHash, (error, result) => {
+                //                 if (!error){
+                //                   console.log(JSON.stringify(result));
+                //                 } else {
+                //                   console.log("Error in transaction");
+                //                   console.log(error);
+                //                 }
+                //               });
+                //         } else {
+                //           console.log(er);
+                //         }
+                //       });
+                //     } else {
+                //       console.log(e);
+                //     }
+                // })
 
             } catch (error) {
                 // Catch any errors for any of the above operations.

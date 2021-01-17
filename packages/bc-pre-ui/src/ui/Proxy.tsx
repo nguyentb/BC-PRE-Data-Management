@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PREProxy } from 'bc-pre-core';
-import style from './css/Element.module.css';
+import style from '../css/Element.module.css';
 
 type ProxyProps = {
     proxy: Proxy;

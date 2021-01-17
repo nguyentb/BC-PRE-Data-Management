@@ -20,8 +20,8 @@ contract DataManagement {
 
     // Upload Data event
     event uploadDataEvent (
-			address _address,
-			string _dataHash
+		address _address,
+		string _dataHash
     );
 
     //Grant Permission Event
