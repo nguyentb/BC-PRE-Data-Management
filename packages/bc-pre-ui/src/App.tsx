@@ -152,7 +152,7 @@ const App: React.FC = () => {
                     }))
 
                 } catch (error) {
-                    console.error('A problem occured', error);
+                    console.error('A problem occured!', error);
                 };
             })();
 
