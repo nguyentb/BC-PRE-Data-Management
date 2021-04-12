@@ -57,7 +57,7 @@ const keyPair = crypto_1.generateKeyPairSync('rsa', {
         cipher: 'aes-256-cbc', 
         passphrase: 'idea-fast'
         } 
-}); 
+});
 
 console.log('asymmetric key pair using RSA with modulus length = 520');
 
@@ -198,3 +198,20 @@ jwt.verify(token2, pubkeytemp, function(err) {
 });
 
 
+const keyPairNew = crypto_1.generateKeyPairSync('rsa', { 
+        modulusLength: 520, 
+        publicKeyEncoding: { 
+            type: 'spki', 
+            format: 'pem'
+        }, 
+        privateKeyEncoding: { 
+        type: 'pkcs8', 
+        format: 'pem', 
+        cipher: 'aes-256-cbc', 
+        passphrase: 'idea-fast'
+        } 
+});
+
+const pubkeyGen = crypto_1.createPrivateKey({key: keyPairNew.privateKey, passphrase: 'idea-fast'});
+  
+console.log("Public key re-constructed from Private Key: ", pubkeyGen);
