@@ -169,7 +169,6 @@ function tokenverifier(token, secret) {
     return decoded;
 }
 
-
 const payload = {
 	publicKey: keyPair.publicKey,
 	Issuer: 'IDEA-FAST DMP'
